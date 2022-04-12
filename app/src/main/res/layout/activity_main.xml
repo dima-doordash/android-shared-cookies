@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
+
+    <Button
+        android:id="@+id/open_webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open WebView"
+        app:layout_constraintTop_toBottomOf="@id/title_webview_options" />
+
+    <Button
+        android:id="@+id/do_get_request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send GET request"
+        app:layout_constraintTop_toBottomOf="@id/title_okhttp_calls" />
+
+    <Button
+        android:id="@+id/do_set_request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send SET request"
+        app:layout_constraintTop_toBottomOf="@id/do_get_request" />
+
+    <Button
+        android:id="@+id/launch_directly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Launch Chucker directly"
+        app:layout_constraintTop_toBottomOf="@id/title_debug" />
+
+    <TextView
+        android:id="@+id/title_okhttp_calls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OkHttp calls:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/open_webview" />
+
+    <TextView
+        android:id="@+id/title_webview_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WebView options:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_debug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Debugging with Chucker:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/do_set_request" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
