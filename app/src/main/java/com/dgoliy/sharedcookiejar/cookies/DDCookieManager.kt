@@ -6,10 +6,6 @@ import java.net.CookieHandler
 import java.net.CookiePolicy
 import java.net.CookieStore
 import java.net.HttpCookie
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import java.util.TimeZone
 import java.util.concurrent.atomic.AtomicReference
 
 class DDCookieManager private constructor(
@@ -62,30 +58,33 @@ class DDCookieManager private constructor(
     }
 
     private fun httpCookieToHeaderString(cookie: HttpCookie): String {
-        val expires = if (cookie.maxAge != -1L) {
-            // TODO verify with DQ the expiration time format
-            val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.UK).apply {
-                timeZone = TimeZone.getTimeZone("GMT")
-            }
-
-            val calendar = Calendar.getInstance(Locale.UK)
-                .apply { set(Calendar.SECOND, cookie.maxAge.toInt()) }
-
-            "; expires=${dateFormat.format(calendar.time)}"
+        val maxAge = if (cookie.maxAge != -1L) {
+            "; max_age=${cookie.maxAge}"
+        } else {
+            ""
+        }
+        val path = if (cookie.path != null) {
+            "; path=${cookie.path}"
+        } else {
+            ""
+        }
+        val domain = if (cookie.domain != null) {
+            "; domain=${cookie.adjustedDomain}"
+        } else {
+            ""
+        }
+        val secure = if (cookie.secure) {
+            "; secure"
+        } else {
+            ""
+        }
+        val httpOnly = if (Build.VERSION.SDK_INT >= 24 && cookie.isHttpOnly) {
+            "; httponly"
         } else {
             ""
         }
 
-        val path = if (cookie.path != null) "; path=${cookie.path}" else ""
-        val domain = if (cookie.domain != null) "; domain=${cookie.adjustedDomain}" else ""
-        val secure = if (cookie.secure) "; secure" else ""
-        val httpOnly = if (Build.VERSION.SDK_INT >= 24) {
-            if (cookie.isHttpOnly) "; httponly" else ""
-        } else {
-            ""
-        }
-
-        return "${cookie.name}=${cookie.value}$expires$path$domain$secure$httpOnly"
+        return "${cookie.name}=${cookie.value}$maxAge$path$domain$secure$httpOnly"
     }
 
     private val HttpCookie.adjustedDomain: String
